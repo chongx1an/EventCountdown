@@ -4,6 +4,7 @@ import {
   View,
   Text,
   ScrollView,
+  FlatList
 } from 'react-native';
 import EventCard from './UI/EventCard';
 import firebase from 'react-native-firebase';
@@ -23,10 +24,10 @@ class HomeScreen extends Component{
   componentDidMount() {
     this.unsubsribe = this.ref.onSnapshot((querySnapshot) => {
 
-      const events = [];
+      const eventsData = [];
       
       querySnapshot.forEach((doc) => {
-        events.push({
+        eventsData.push({
           title: doc.data().title,
           date: doc.data().date,
           participants: doc.data().participants
@@ -34,10 +35,30 @@ class HomeScreen extends Component{
       });
 
       this.setState({
-        events: events,
+        events: eventsData.sort((a, b) => {
+          return (a.date > b.date);
+        }),
         loading: false
       })
     });
+  }
+
+  timeDifference(date1, date2) {
+      var difference = date1.getTime() - date2.getTime();
+
+      var daysDifference = Math.floor(difference/1000/60/60/24);
+      difference -= daysDifference*1000*60*60*24
+
+      var hoursDifference = Math.floor(difference/1000/60/60);
+      difference -= hoursDifference*1000*60*60
+
+      var minutesDifference = Math.floor(difference/1000/60);
+      difference -= minutesDifference*1000*60
+
+      var secondsDifference = Math.floor(difference/1000);
+
+    //return 'difference = ' + daysDifference + ' day/s ' + hoursDifference + ' hour/s ' + minutesDifference + ' minute/s ' + secondsDifference + ' second/s ';
+    return daysDifference; 
   }
 
   render(){
@@ -49,17 +70,18 @@ class HomeScreen extends Component{
             <Text style={styles.smallerText}>You will have...</Text>
             
             <View style={{height: 120}}>
-              <ScrollView
+              <FlatList
                 horizontal={true}
-                showsHorizontalScrollIndicator={false}
+                data={this.state.events}
+                renderItem={({item, index}) =>
+                  <EventCard
+                    activity={item.title}
+                    days={this.timeDifference(new Date(item.date * 1000), new Date())}
+                  />
+                }
+                keyExtractor={(item, index) => item.title}
               >
-                <EventCard activity="Hang Out" days="03"/>
-                <EventCard activity="Kill People" days="05"/>
-                <EventCard activity="Hang Out" days="03"/>
-                <EventCard activity="Hang Out" days="03"/>
-                <EventCard activity="Hang Out" days="03"/>
-                <EventCard activity="Hang Out" days="03"/>
-              </ScrollView>
+              </FlatList>
             </View>
           </View>
     
@@ -106,3 +128,20 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
+
+//add doc to firestore
+// onPressAdd = () => {
+//   this.ref.add({
+//     title: this.state.title,
+//     date: this.state.date,
+//     participants: this.state.participants
+//   }).then((data) => {
+//     this.setState({
+//       loading: true
+//     });
+//   }).catch((error) => {
+//     this.setState({
+//       loading: true
+//     });
+//   });
+// }
