@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "600243842125",
+    "firebase_url": "https://gather-ba8af.firebaseio.com",
+    "project_id": "gather-ba8af",
+    "storage_bucket": "gather-ba8af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600243842125:android:b747e1a8c10b3b15",
+        "android_client_info": {
+          "package_name": "com.matb.eventcountdown"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600243842125-lbc981fc1ghvgr7edm0cm95b476n0q4p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZhCod4_aa4LxEqeoFkAELinIMND90m60"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600243842125-lbc981fc1ghvgr7edm0cm95b476n0q4p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
